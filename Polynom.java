@@ -16,7 +16,6 @@ import javax.swing.plaf.synth.SynthSpinnerUI;
  *
  */
 public class Polynom implements Polynom_able{
-
 	private ArrayList<Monom> list=new ArrayList<Monom>();
 
 	@Override
@@ -64,18 +63,26 @@ public class Polynom implements Polynom_able{
 	 * This function received a String and change it to Polynom
 	 * @param p any string which received from the user
 	 */
+
 	public Polynom(String p) {
 		Polynom pol=new Polynom();
 		String[] str=p.split("\\+");
 		for (int i = 0; i < str.length; i++) {
 			Monom m=new Monom (str[i]);
 			this.list.add(m);
+		}
+		for (int i =0 ;i<list.size();i++) {
+			for (int j=i+1;j<list.size();j++) {
+				if (list.get(i).get_power()==list.get(j).get_power()) {
+					list.get(i).add(list.get(j));
+					list.remove(j);
+				}
+			}
 			Monom_Comperator M = new Monom_Comperator();
 			this.list.sort(M);
 		}
 		pol.copy();
 	}
-
 
 	/**
 	 * This function adds any Polynom_able to another Polynom
@@ -182,7 +189,7 @@ public class Polynom implements Polynom_able{
 	 * @param p1 any Polynom_able which received from the user
 	 */
 	@Override
-	
+
 	public void multiply(Polynom_able p1) {
 
 		ArrayList<Monom> temp = new ArrayList<>(); 
@@ -206,17 +213,17 @@ public class Polynom implements Polynom_able{
 			Monom_Comperator mc = new Monom_Comperator();
 			temp2.sort(mc);
 		}
-		
+
 		Polynom p = new Polynom();
 		for(int i = 0; i<temp2.size(); i ++) {
-		p.add(temp2.get(i));
+			p.add(temp2.get(i));
 		}
-		
+
 		ArrayList<Monom> temp3 = new ArrayList<>(); 
 		Iterator<Monom> it2 = p.iteretor();
 		while (it2.hasNext()) {
 			Monom m = it2.next();
-				temp3.add(m);
+			temp3.add(m);
 		}
 		this.list = temp3;
 	}
@@ -332,10 +339,14 @@ public class Polynom implements Polynom_able{
 
 		Iterator<Monom> it = this.list.iterator();
 		while (it.hasNext()) {
-			p.add(it.next().derivative());;
+			Monom m = it.next();
+			p.add(m.derivative());
 		}	
+		
 		return p.copy();
+
 	}
+
 
 	/**
 	 * This function assuming (f(x0)*f(x1) smaller or equal 0

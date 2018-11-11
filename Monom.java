@@ -49,27 +49,27 @@ public class Monom implements function{
 		int operator = s.indexOf("*");
 		double a = 0;
 		int b = 0;
-		if (vairable==-1) {    //אם אין איקס
+		if (vairable==-1) {    //if there is no X
 			a = Double.parseDouble(s);
 		}
 
-		else {                     // אם יש איקס
-			if (power==-1) {      //אם אין חזקה
+		else {                     // if there is X
+			if (power==-1) {      //if there is no power
 				b = 1;
 				String s2=s.substring(vairable+1,s.length());
 				if(!s2.equals(""))
 				{
 					throw new RuntimeException("The Monom is invalid");
 				}
-				if (operator == -1) {     // אם אין כפל
+				if (operator == -1) {     // if there is no multiply
 					String s1=s.substring(0,vairable);
-					if (s1.equals(""))              //אם אין לי כלום לפני האיקס, כלומר המקדם אחד
+					if (s1.equals(""))              //if the coefficient is one
 						a=1;
 					else
 						a = Double.parseDouble(s1);
 				}
 
-				else {                         // אם יש כפל
+				else {                         // if there is multiply
 					String s1=s.substring(0,operator);
 					if (s.equals(""))
 						a=1;
@@ -78,15 +78,15 @@ public class Monom implements function{
 				}
 			}
 
-			else {    //אם יש חזקה
-				if (operator == -1) {     // אם אין כפל
+			else {    //if there is power
+				if (operator == -1) {     // if there is no multiply
 					String snew=s;
 					String s1=s.substring(0,vairable);
 					String s2=snew.substring(power+1,snew.length());
-					if (s1.equals("")) {            //אם אין לי כלום לפני האיקס, כלומר המקדם אחד
+					if (s1.equals("")) {            //if the coefficient is one
 						a=1;
 					}
-					else {                                 //אם יש מקדם לאיקס
+					else {                                 //if the coefficient different from one
 						a = Double.parseDouble(s1);
 					}
 
@@ -102,14 +102,14 @@ public class Monom implements function{
 					}
 				}
 
-				else {                         // אם יש כפל
+				else {                         // if there is multiply
 					String snew=s;
 					String s1=s.substring(0,operator);
 					String s2=snew.substring(power+1,snew.length());
-					if (s1.equals("")) {                 //אם אין לי כלום לפני האיקס, כלומר המקדם אחד
+					if (s1.equals("")) {                 //if the coefficient is one
 						a=1;
 					}
-					else {                                   //אם יש מקדם לאיקס
+					else {                                   //if the coefficient different from one
 						a = Double.parseDouble(s1);
 					}
 					if (s2.equals("")||Integer.parseInt(s2)<0) {
@@ -152,8 +152,8 @@ public class Monom implements function{
 
 		else {
 
-			this._coefficient= this._power*this._coefficient;
-			this._power= this._power-1;
+			c= this._power*this._coefficient;
+			p= this._power-1;
 		}
 
 		Monom m = new Monom(c,p);
@@ -259,6 +259,17 @@ public class Monom implements function{
 		}
 		else
 			this._power = p;
+	}
+	
+	/**
+	 * This function checks if two Momom are equal
+	 * @param m any Monom which received from the user
+	 * @return true or false
+	 */
+	public boolean equals(Monom m) {
+		if (this._coefficient==m._coefficient && this._power == m._power)
+			return true;
+		return false;
 	}
 
 	/**
