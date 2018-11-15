@@ -55,7 +55,8 @@ public class Polynom implements Polynom_able{
 		Polynom other = new Polynom();
 		Iterator<Monom> it = this.list.iterator();
 		while (it.hasNext()) {
-			other.add(it.next());
+			Monom m = new Monom(it.next());
+			other.add(m);
 		}	
 		return other;
 	}
@@ -286,7 +287,14 @@ public class Polynom implements Polynom_able{
 	public double root(double x0, double x1, double eps) {
 
 		if (f(x0)*f(x1)>0) {
-			throw new RuntimeException("Error, there is no root in root function in class Polynom");	
+
+			try {
+				throw new Exception( "Error, there is no root in root function in class Polynom");
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 		}
 		double temp=0;
 
@@ -335,15 +343,15 @@ public class Polynom implements Polynom_able{
 	@Override
 	public Polynom_able derivative() {
 
-		Polynom p = new Polynom();
+		Polynom p =(Polynom) copy();
 
-		Iterator<Monom> it = this.list.iterator();
+		Iterator<Monom> it = p.iteretor();
 		while (it.hasNext()) {
 			Monom m = it.next();
-			p.add(m.derivative());
+			m.derivative();
 		}	
-		
-		return p.copy();
+
+		return p;
 
 	}
 
@@ -368,6 +376,44 @@ public class Polynom implements Polynom_able{
 		return sum*eps;
 	}
 
+	public double area2(double x0, double x1, double eps) {
+
+		double max = x1;
+		double min = x0;
+		if (x0>x1) {
+			max=x0;
+			min=x1;
+		}
+
+		double rec =(max-min)/eps;
+		double sum = 0;
+		for (int i=1; i<=rec ; i++) {
+			double x = min+ eps*(i-1);
+			if (f(x)<0)
+				sum = sum + f(x);
+		}
+		return Math.abs(sum*eps);
+	}
+
+	/**
+	 * This function call to Graph_Polynom function and create graph of the polynom
+	 * @param x0 the first point which received from the user
+	 * @param x1 the second point which received from the user
+	 * @param eps the point range which received from the user
+	 */
+	public void Graph(double x0, double x1, double eps) {
+		if (x0>=x1) {
+		try {
+			throw new Exception("x0 should be smaller than x1");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}}
+		else {
+		Graph_Polynom frame= new Graph_Polynom(this,x0 ,x1,eps);
+		frame.setVisible(true);
+
+	}}
+
 	/**
 	 * This function permit use with Iterator
 	 * @return the Iterator
@@ -377,6 +423,7 @@ public class Polynom implements Polynom_able{
 
 		return this.list.iterator();
 	}
+
 
 }
 

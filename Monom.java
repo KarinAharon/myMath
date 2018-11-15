@@ -65,6 +65,8 @@ public class Monom implements function{
 					String s1=s.substring(0,vairable);
 					if (s1.equals(""))              //if the coefficient is one
 						a=1;
+					else if ( s1.equals("-"))
+						a=-1;
 					else
 						a = Double.parseDouble(s1);
 				}
@@ -130,7 +132,7 @@ public class Monom implements function{
 	 * @return derivative of Monom
 	 */
 
-	public Monom derivative() {
+	public void derivative() {
 		int p  = _power;
 		double c = _coefficient;
 
@@ -152,12 +154,12 @@ public class Monom implements function{
 
 		else {
 
-			c= this._power*this._coefficient;
-			p= this._power-1;
+			this._coefficient= this._power*this._coefficient;
+			this._power= this._power-1;
 		}
 
-		Monom m = new Monom(c,p);
-		return m;
+//		Monom m = new Monom(this._coefficient,this._power);
+//		return m;
 
 	}
 
@@ -266,7 +268,7 @@ public class Monom implements function{
 	 * @param m any Monom which received from the user
 	 * @return true or false
 	 */
-	public boolean equals(Monom m) {
+	private boolean equals(Monom m) {
 		if (this._coefficient==m._coefficient && this._power == m._power)
 			return true;
 		return false;
